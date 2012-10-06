@@ -1,0 +1,4 @@
+Simple 2d game engine written in C++.
+
+Graphics is seperated from logic. 
+To implement a new graphic core all that is needed is to implement a wrapper of the IGraphics class.
