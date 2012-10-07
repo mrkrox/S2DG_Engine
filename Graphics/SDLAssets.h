@@ -6,8 +6,6 @@
 #include "SDL_ttf.h"
 #include "SDL_image.h"
 
-
-
 class SDLAssets
 {
 public:
@@ -16,10 +14,8 @@ public:
 
 	bool LoadFont(std::string,int);
 	bool LoadTexture(std::string);
+	TTF_Font* GetFont(std::string);
+	SDL_Surface* GetTexture(std::string);
 	void CleanUp();
-
-	std::map<std::string, TTF_Font*> _fonts;
-	std::map<std::string, SDL_Surface*> _textures;
-
 };
 

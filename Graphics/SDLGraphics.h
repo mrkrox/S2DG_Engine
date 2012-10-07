@@ -1,5 +1,6 @@
 #pragma once
 #include "IGraphics.h"
+#include "SDLAssets.h"
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "SDL_image.h"
@@ -20,8 +21,9 @@ public:
 	void FreeFont(std::string);
 	void DrawSurface(std::string, Vector2);
 	void DrawSurface(Rectangle, std::string, Vector2);
+	void DrawFont(std::string, std::string, int,int,int, Vector2);
 private:
 	SDL_Surface* _main_surface;
-	//SDLAssets* _assets
+	SDLAssets* _assets;
 };
 

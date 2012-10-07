@@ -15,5 +15,6 @@ public:
 	virtual void FreeFont(std::string) = 0;
 	virtual void DrawSurface(std::string, Vector2) = 0;
 	virtual void DrawSurface(Rectangle, std::string, Vector2) = 0;
+	virtual void DrawFont(std::string, std::string, int,int,int, Vector2) = 0;
 };
 

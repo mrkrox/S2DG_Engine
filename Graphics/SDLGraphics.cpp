@@ -1,18 +1,15 @@
+#pragma once
 #include "SDLGraphics.h"
 
 
 SDLGraphics::SDLGraphics(void)
 {
-	//_assets = new SDLAssets();
+	_assets = new SDLAssets();
 }
 
 
 SDLGraphics::~SDLGraphics(void)
 {
-	SDL_FreeSurface(_main_surface);
-	delete _main_surface;
-
-	//_assets->CleanUp();
 }
 
 int SDLGraphics::CreateGameSurface(const int width, const int height , const int bitsPerPixel)
@@ -45,6 +42,8 @@ int SDLGraphics::CreateGameSurface(const int width, const int height , const int
 	
 void SDLGraphics::Shutdown()
 {
+	SDL_FreeSurface(_main_surface);
+	_assets->CleanUp();
 	TTF_Quit(); 
 	//Quit SDL 
 	SDL_Quit(); 
@@ -63,17 +62,17 @@ void SDLGraphics::FreeSurface(std::string surfaceName)
 
 void SDLGraphics::LoadSurface(std::string surfaceName)
 {
-	//_assets->LoadTextures(surfaceName)
+	_assets->LoadTexture(surfaceName);
 }
 	
 void SDLGraphics::LoadFont(std::string fontName, int size)
 {
-	//_assets->LoadFonts(fontName, size);
+	_assets->LoadFont(fontName, size);
 }
 	
 void SDLGraphics::FreeFont(std::string fontName)
 {
-	//TTF_CloseFont(_assets->_fonts[fontName]);
+	TTF_CloseFont(_assets->GetFont(fontName));
 }
 
 void SDLGraphics::DrawSurface(std::string surfaceName, Vector2 position)
@@ -81,7 +80,7 @@ void SDLGraphics::DrawSurface(std::string surfaceName, Vector2 position)
 	SDL_Rect offset;
 	offset.x = (Sint16) position.x;
 	offset.y = (Sint16) position.y;
-	//SDL_BlitSurface(_assets->_textures[surfacename], NULL,_main_surface , &offset);
+	SDL_BlitSurface(_assets->GetTexture(surfaceName), NULL,_main_surface , &offset);
 }
 	
 void SDLGraphics::DrawSurface(Rectangle srcRect, std::string surfaceName, Vector2 position)
@@ -96,5 +95,19 @@ void SDLGraphics::DrawSurface(Rectangle srcRect, std::string surfaceName, Vector
 	sourceRect.w = srcRect.width;
 	sourceRect.h = srcRect.height;
 
-	//SDL_BlitSurface(_assets->_textures[surfacename], &sourceRect, _main_surface, &offset);
+	SDL_BlitSurface(_assets->GetTexture(surfaceName), &sourceRect, _main_surface, &offset);
+}
+
+void SDLGraphics::DrawFont(std::string fontName, std::string text, int r, int g ,int b, Vector2 pos)
+{
+	SDL_Color color;
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	SDL_Rect offset;
+	offset.x = (Sint16) pos.x;
+	offset.y = (Sint16) pos.y;
+
+	SDL_Surface* textDrawn = TTF_RenderText_Solid(_assets->GetFont(fontName),text.c_str(), color);
+	SDL_BlitSurface(textDrawn, NULL, _main_surface , &offset);
 }
